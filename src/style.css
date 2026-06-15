@@ -1,0 +1,365 @@
+/*
+ * src/style.css
+ * Dynamic Color Palette Generator - Main Stylesheet
+ *
+ * This stylesheet defines the visual presentation for the Dynamic Color Palette Generator application.
+ * It includes global styles, layout for the color palette, individual color card styling,
+ * interactive elements like buttons, and notification styles.
+ *
+ * Tech Stack: HTML, CSS, JavaScript
+ *
+ * Author: Your Name/Company
+ * Date: [Current Date]
+ */
+
+/* --- 1. CSS Variables --- */
+/* Define global CSS variables for consistent styling and easy theme adjustments. */
+:root {
+    /* Colors */
+    --primary-bg-color: #1a1a2e; /* Dark background */
+    --secondary-bg-color: #16213e; /* Slightly lighter dark for cards */
+    --text-color: #e0e0e0; /* Light text */
+    --accent-color: #0f3460; /* Dark blue accent */
+    --button-bg-color: #e94560; /* Reddish accent for buttons */
+    --button-hover-color: #b8324a; /* Darker red on hover */
+    --border-color: #0f3460; /* Border color */
+    --locked-color: #ffd700; /* Gold for locked state */
+    --notification-bg-success: #4CAF50; /* Green for success */
+    --notification-text-color: #ffffff;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Typography */
+    --font-family-primary: 'Roboto', sans-serif;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2rem;
+    --font-size-xxl: 3rem;
+
+    /* Border Radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+
+    /* Box Shadow */
+    --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --box-shadow-dark: 0 8px 16px rgba(0, 0, 0, 0.4);
+
+    /* Transitions */
+    --transition-speed: 0.3s;
+    --transition-ease: ease-in-out;
+}
+
+/* --- 2. Base Styles & Reset --- */
+/* Apply a basic reset and define global typography and box-sizing. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px; /* Base font size for rem units */
+}
+
+body {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--primary-bg-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* --- 3. Header Styles --- */
+header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    max-width: 900px;
+    width: 100%;
+}
+
+header h1 {
+    font-size: var(--font-size-xxl);
+    color: var(--button-bg-color);
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* --- 4. Main Palette Container --- */
+#palette-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+    justify-content: center;
+    gap: var(--spacing-lg);
+    width: 100%;
+    max-width: 1200px; /* Max width for the palette grid */
+    margin-bottom: var(--spacing-xl);
+}
+
+/* --- 5. Color Card Styles --- */
+.color-card {
+    background-color: var(--secondary-bg-color);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--box-shadow-light);
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Default to full width on very small screens */
+    max-width: 220px; /* Max width for individual cards */
+    min-width: 180px; /* Min width to prevent squishing */
+    transition: transform var(--transition-speed) var(--transition-ease),
+                box-shadow var(--transition-speed) var(--transition-ease);
+    cursor: pointer; /* Indicate interactivity */
+}
+
+.color-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-dark);
+}
+
+.color-display {
+    width: 100%;
+    height: 150px; /* Fixed height for the color swatch */
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-speed) var(--transition-ease);
+}
+
+.color-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--secondary-bg-color);
+}
+
+.hex-code {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    color: var(--text-color);
+    user-select: none; /* Prevent selection of hex code text */
+    flex-grow: 1; /* Allow hex code to take available space */
+    text-align: center;
+}
+
+/* --- 6. Button Styles (Lock, Copy, Generate) --- */
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    transition: color var(--transition-speed) var(--transition-ease),
+                background-color var(--transition-speed) var(--transition-ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: var(--spacing-sm); /* Space between buttons */
+}
+
+.action-btn:hover {
+    color: var(--button-bg-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.action-btn:focus {
+    outline: 2px solid var(--button-bg-color);
+    outline-offset: 2px;
+}
+
+/* Specific styles for lock button when active/locked */
+.lock-btn.locked {
+    color: var(--locked-color);
+}
+
+/* Generate Button */
+#generate-btn {
+    background-color: var(--button-bg-color);
+    color: var(--notification-text-color);
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: var(--box-shadow-light);
+    transition: background-color var(--transition-speed) var(--transition-ease),
+                transform var(--transition-speed) var(--transition-ease),
+                box-shadow var(--transition-speed) var(--transition-ease);
+    margin-top: var(--spacing-xl);
+    letter-spacing: 0.05em;
+}
+
+#generate-btn:hover {
+    background-color: var(--button-hover-color);
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-dark);
+}
+
+#generate-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--box-shadow-light);
+}
+
+#generate-btn:focus {
+    outline: 3px solid var(--locked-color);
+    outline-offset: 3px;
+}
+
+/* --- 7. Notification Styles --- */
+#notification-container {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    z-index: 1000; /* Ensure notifications are on top */
+}
+
+.notification {
+    background-color: var(--notification-bg-success);
+    color: var(--notification-text-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-dark);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity var(--transition-speed) var(--transition-ease),
+                transform var(--transition-speed) var(--transition-ease);
+    min-width: 200px;
+    text-align: center;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* --- 8. Responsive Design --- */
+/* Adjust layout for different screen sizes */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: var(--font-size-xl);
+    }
+
+    header p {
+        font-size: var(--font-size-base);
+    }
+
+    #palette-container {
+        gap: var(--spacing-md);
+    }
+
+    .color-card {
+        max-width: 45%; /* Two cards per row */
+        min-width: unset;
+    }
+
+    #generate-btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: var(--font-size-base);
+    }
+
+    #notification-container {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    header h1 {
+        font-size: var(--font-size-lg);
+    }
+
+    #palette-container {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center;
+    }
+
+    .color-card {
+        max-width: 90%; /* Almost full width */
+        width: 100%;
+    }
+
+    .color-display {
+        height: 120px;
+    }
+
+    .hex-code {
+        font-size: var(--font-size-base);
+    }
+
+    .action-btn {
+        font-size: var(--font-size-base);
+        padding: var(--spacing-xs);
+    }
+
+    #generate-btn {
+        width: 100%;
+        max-width: 300px;
+        font-size: var(--font-size-base);
+    }
+
+    #notification-container {
+        bottom: var(--spacing-sm);
+        right: var(--spacing-sm);
+        width: calc(100% - var(--spacing-lg));
+        align-items: center;
+    }
+
+    .notification {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+/* --- 9. Accessibility Enhancements --- */
+/* Ensure elements are keyboard navigable and provide visual feedback. */
+button:focus-visible {
+    outline: 3px solid var(--locked-color);
+    outline-offset: 3px;
+}
+
+.color-card:focus-visible {
+    outline: 3px solid var(--button-bg-color);
+    outline-offset: 3px;
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-dark);
+}
+
+/* Hide visually but keep for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
