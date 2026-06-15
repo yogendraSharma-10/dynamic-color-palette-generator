@@ -1,0 +1,49 @@
+# Node.js dependencies
+node_modules/
+.npm/
+.yarn/
+.pnpm-store/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Cache directories
+.cache/
+.parcel-cache/ # If using Parcel bundler
+.webpack/ # If using Webpack
+.next/ # If using Next.js (unlikely for this project, but common)
+.svelte-kit/ # If using SvelteKit (unlikely for this project, but common)
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor/OS specific files
+.DS_Store
+Thumbs.db
+.vscode/settings.json # User-specific VS Code settings
+.vscode/launch.json # User-specific VS Code launch configurations
+.vscode/tasks.json # User-specific VS Code tasks
+*.sublime-project
+*.sublime-workspace
+
+# Test coverage reports
+coverage/
+
+# Miscellaneous
+*.tgz # npm packed archives
+.idea/ # IntelliJ IDEA files
+.project
+.classpath
+.c9/
+*.swp
+*.swo
